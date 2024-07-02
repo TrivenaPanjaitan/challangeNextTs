@@ -2,24 +2,24 @@ import { useEffect, useState } from "react";
 import { getUsers, deleteUser } from "../../utils/api";
 import { useRouter } from "next/router";
 import { Container, ListGroup, Button } from "react-bootstrap";
-import { User } from "../../utils/type";
+import { User, UsersProps } from "../../utils/type";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const UserList = () => {
-  const [users, setUsers] = useState<User[]>([]);
+const UserList: React.FC<UsersProps> = ({ users }) => {
+  const [usersList, setUsersList] = useState<User[]>(users);
   const router = useRouter();
 
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await getUsers();
-      setUsers(data);
+      setUsersList(data);
     };
     fetchUsers();
   }, []);
 
   const handleDelete = async (id: number) => {
     await deleteUser(id);
-    setUsers(users.filter((user) => user.id !== id));
+    setUsersList(usersList.filter((user) => user.id !== id));
   };
 
   const handleCreateUser = () => {
@@ -37,7 +37,7 @@ const UserList = () => {
         Create New User
       </Button>
       <ListGroup>
-        {users.map((user) => (
+        {usersList.map((user) => (
           <ListGroup.Item
             key={user.id}
             className="d-flex justify-content-between align-items-center"

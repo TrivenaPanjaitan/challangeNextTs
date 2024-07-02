@@ -1,3 +1,9 @@
+export interface Post {
+  id: number;
+  title: string;
+  body: string;
+  user_id: number;
+}
 export interface Comment {
   id: number;
   name: string;
@@ -16,12 +22,7 @@ export interface UsersProps {
 }
 
 export interface BlogPostDetailProps {
-  post: {
-    id: number;
-    title: string;
-    body: string;
-    user_id: number;
-  };
+  post: Post;
   comments: Comment[];
   user: User;
 }

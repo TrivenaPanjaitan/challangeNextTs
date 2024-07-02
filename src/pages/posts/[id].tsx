@@ -4,28 +4,9 @@ import BlogPostDetail from "../../components/BlogPostDetail";
 import { getPostById, getPostComments, getUserById } from "../../utils/api";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { BlogPostDetailProps } from "../../utils/type";
 
-interface PostDetailPageProps {
-  post: {
-    id: number;
-    title: string;
-    body: string;
-    user_id: number;
-  };
-  comments: {
-    id: number;
-    name: string;
-    email: string;
-    body: string;
-  }[];
-  user: {
-    id: number;
-    name: string;
-    email: string;
-  } | null;
-}
-
-const PostDetailPage: React.FC<PostDetailPageProps> = ({
+const PostDetailPage: React.FC<BlogPostDetailProps> = ({
   post,
   comments,
   user,

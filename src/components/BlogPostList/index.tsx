@@ -1,24 +1,43 @@
+import React from "react";
 import Link from "next/link";
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
+import { Post } from "../../utils/type";
+import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "./index.module.scss";
+interface BlogPostListProps {
+  posts: Post[];
+}
 
-const BlogPostList = ({ posts }: { posts: any[] }) => (
-  <div className="container">
-    <div className="row">
-      {posts.map((post) => (
-        <div key={post.id} className="col-md-6 mb-4">
-          <div className={`card ${styles.card}`}>
-            <div className="card-body">
-              <h5 className="card-title">{post.title}</h5>
-              <p className="card-text">{post.body.substring(0, 100)}...</p>
-              <Link href={`/posts/${post.id}`} className="btn btn-primary">
-                Read More
-              </Link>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+const BlogPostList: React.FC<BlogPostListProps> = ({ posts }) => {
+  return (
+    <Container className="my-5">
+      <Row className="mb-3">
+        <Col>
+          <h1>Blog Post List</h1>
+        </Col>
+        <Col className="text-right">
+          <Link href="/users">
+            <Button variant="primary">User List</Button>
+          </Link>
+        </Col>
+      </Row>
+      <Row>
+        {posts.map((post) => (
+          <Col key={post.id} sm={12} md={6} lg={4} className="mb-4">
+            <Card className={`card ${styles.card}`}>
+              <Card.Body>
+                <Card.Title>{post.title}</Card.Title>
+                <Card.Text>{post.body.substring(0, 100)}...</Card.Text>
+                <Link href={`/posts/${post.id}`}>
+                  <Button variant="primary">Read More</Button>
+                </Link>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
+  );
+};
 
 export default BlogPostList;

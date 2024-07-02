@@ -1,27 +1,27 @@
 import { GetServerSideProps, NextPage } from "next";
-import { getUserById, updateUser, createUser } from "../../utils/api";
 import UserForm from "../../components/UserForm";
+import { getUserById } from "../../utils/api";
+import { User } from "../../utils/type";
 
-const UserDetail: NextPage<{ user: any }> = ({ user }) => {
-  const handleSubmit = async (user: {
-    id?: number;
-    name: string;
-    email: string;
-  }) => {
-    if (user.id) {
-      await updateUser(user.id, user);
-    } else {
-      await createUser(user);
-    }
-  };
+interface UserPageProps {
+  user: User;
+}
 
-  return <UserForm user={user} onSubmit={handleSubmit} />;
+const UserPage: NextPage<UserPageProps> = ({ user }) => {
+  return <UserForm initialUser={user} />;
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { id } = context.params!;
-  const user = await getUserById(Number(id));
-  return { props: { user } };
+export const getServerSideProps: GetServerSideProps<UserPageProps> = async (
+  context
+) => {
+  const { id } = context.query;
+  try {
+    const user = await getUserById(Number(id));
+    return { props: { user } };
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return { props: { user: null } }; // Handle error case appropriately
+  }
 };
 
-export default UserDetail;
+export default UserPage;

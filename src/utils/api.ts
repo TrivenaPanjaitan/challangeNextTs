@@ -39,14 +39,19 @@ export const getUserById = async (id: number) => {
   return response.data;
 };
 
-export const createUser = async (user: { name: string; email: string }) => {
+export const createUser = async (user: {
+  name: string;
+  gender: string;
+  status: string;
+  email: string;
+}) => {
   const response = await api.post("/users", user);
   return response.data;
 };
 
 export const updateUser = async (
   id: number,
-  user: { name: string; email: string }
+  user: { name: string; gender: string; status: string; email: string }
 ) => {
   const response = await api.put(`/users/${id}`, user);
   return response.data;
